@@ -1,6 +1,6 @@
 # Drone Command & Control System
 
-A real-time drone telemetry and command interface, modeled after military-grade operations for UAV control. Built using modern web technologies and secure communication protocols, this project is designed to simulate tactical drone oversight — ideal for aerospace, defense, or simulation software roles (e.g. Lockheed Martin Australia).
+A real-time drone telemetry and command interface, modeled after military-grade operations for UAV control. Built using modern web technologies and secure communication protocols, this project is designed to simulate tactical drone oversight — ideal for aerospace, defense, or simulation software roles.
 
 ---
 
@@ -29,17 +29,16 @@ A real-time drone telemetry and command interface, modeled after military-grade 
 
 ---
 
-##  Setup Instructions
+## 🛠️ Setup Instructions
 
-### 🔁 
-1. Clone the Repository
+Clone the repository and run the full stack locally:
 
 ```bash
+# 1. Clone the repo
 git clone https://github.com/your-username/secure-drone-control.git
 cd secure-drone-control
 
-2. Backend Setup (Python 3.9+)
-
+# 2. Backend Setup (Python 3.9+)
 cd backend
 python -m venv venv
 .\venv\Scripts\activate       # On Windows
@@ -47,57 +46,19 @@ python -m venv venv
 
 pip install -r requirements.txt
 
-3. Run the Flask Server
+# 3. Start the Flask server
 python app.py
 
-4. Launch the Drone Simulator
+# 4. Run the Drone Simulator (in another terminal)
 cd backend
 .\venv\Scripts\activate
 python simulator.py
 
-5. Frontend Setup (React + Vite)
+# 5. Frontend Setup
 cd frontend
 npm install
 npm run dev
-App opens at: http://localhost:5173
 
-Open the browser console to verify:
-Telemetry received: { lat: ..., lon: ..., ... }
-
-How It Works
-Simulator sends GPS + metrics via Socket.IO to Flask server.
-
-Flask rebroadcasts the data to any connected frontend clients.
-
-React renders:
-
-A map with the drone's live position
-
-Live stats (altitude, speed, battery)
-
-Command buttons
-
-Backend logs all telemetry to a local SQLite database.
-
-Use Cases
-Defense command center simulation
-
-Aerospace software project showcase
-
-Portfolio piece for real-time systems
-
-University UAV research tool
-
-Tactical web system architecture demo
-
-Future Improvements
-📍 Flight path trail (drone breadcrumbs)
-
-📈 Chart.js: altitude/speed graphs
-
-🗂️ Command log display panel
-
-🔐 Login roles (operator vs analyst)
-
-📷 Live video simulation overlay
+# Frontend runs at:
+http://localhost:5173
 
