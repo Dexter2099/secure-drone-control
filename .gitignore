@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+env/
+venv/
+telemetry.db
+
+# Node
+node_modules/
+dist/
+.DS_Store
+
+# OS files
+*.log
+*.tmp
