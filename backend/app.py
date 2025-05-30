@@ -6,11 +6,13 @@ from flask import Flask, request, jsonify, make_response
 from flask_socketio import SocketIO
 import sqlite3
 from datetime import datetime
+import os
 
 app = Flask(__name__)
 socketio = SocketIO(app, cors_allowed_origins="*", async_mode="eventlet")
 
-DB_FILE = "telemetry.db"
+DB_FILE = os.getenv("TELEMETRY_DB", "telemetry.db")
+COMMAND_TOKEN = os.getenv("COMMAND_TOKEN", "changeme")
 
 def save_to_db(data):
     conn = sqlite3.connect(DB_FILE)
@@ -45,7 +47,13 @@ def on_telemetry(data):
 
 @socketio.on('send_command')
 def on_command(data):
-    print("[COMMAND] Received:", data)
+    token = data.get('token')
+    if token != COMMAND_TOKEN:
+        print("[!] Unauthorized command attempt")
+        socketio.emit('command_status', {'error': 'unauthorized'})
+        return
+    print("[COMMAND] Authorized:", data)
+    socketio.emit('command', data)
 
 
 @app.get('/path')

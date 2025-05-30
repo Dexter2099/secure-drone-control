@@ -10,6 +10,7 @@ import './App.css';
 const socket = io('http://localhost:5000', {
   transports: ['websocket'],
 });
+const COMMAND_TOKEN = import.meta.env.VITE_COMMAND_TOKEN;
 
 function App() {
   const [telemetry, setTelemetry] = useState<Telemetry>({
@@ -51,7 +52,7 @@ function App() {
   }, []);
 
   const sendCommand = (cmd: string) => {
-    socket.emit('send_command', { command: cmd });
+    socket.emit('send_command', { command: cmd, token: COMMAND_TOKEN });
   };
 
   return (
