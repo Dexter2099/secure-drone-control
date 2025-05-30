@@ -32,7 +32,7 @@ export const DroneMap = ({ telemetry }: Props) => {
     <MapContainer
       center={[telemetry.lat, telemetry.lon]}
       zoom={16}
-      style={{ height: '400px', width: '100%' }}
+      style={{ height: '60vh', width: '100%' }}
     >
       <RecenterMap lat={telemetry.lat} lon={telemetry.lon} />
       <TileLayer

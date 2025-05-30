@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
 import type { Telemetry } from './types/Telemetry';
 import { DroneMap } from './components/DroneMap';
+import { Header } from './components/Header';
+import './App.css';
 
 const socket = io('http://localhost:5000', {
   transports: ['websocket'],
@@ -15,9 +17,15 @@ function App() {
     speed: 0,
     battery: 100,
   });
+  const [connected, setConnected] = useState(false);
 
   useEffect(() => {
-    socket.on('connect', () => console.log('✅ Connected to backend'));
+    socket.on('connect', () => {
+      console.log('✅ Connected to backend');
+      setConnected(true);
+    });
+
+    socket.on('disconnect', () => setConnected(false));
 
     socket.on('telemetry', (data: Telemetry) => {
       console.log('📡 Telemetry received:', data);
@@ -38,15 +46,22 @@ function App() {
   };
 
   return (
-    <div style={{ padding: '2rem' }}>
-      <h2>🔒 Secure Drone Command Center</h2>
-      <DroneMap telemetry={telemetry} />
-      <p>🛰️ Lat: {telemetry.lat.toFixed(6)} | Lon: {telemetry.lon.toFixed(6)}</p>
-      <p>🪂 Altitude: {telemetry.altitude.toFixed(1)} m | Speed: {telemetry.speed.toFixed(1)} km/h</p>
-      <p>🔋 Battery: {telemetry.battery.toFixed(1)}%</p>
+    <div className="app-container">
+      <Header connected={connected} />
+      <main>
+        <DroneMap telemetry={telemetry} />
+        <p>
+          🛰️ Lat: {telemetry.lat.toFixed(6)} | Lon: {telemetry.lon.toFixed(6)}
+        </p>
+        <p>
+          🪂 Altitude: {telemetry.altitude.toFixed(1)} m | Speed:{' '}
+          {telemetry.speed.toFixed(1)} km/h
+        </p>
+        <p>🔋 Battery: {telemetry.battery.toFixed(1)}%</p>
 
-      <button onClick={() => sendCommand('RETURN')}>🛬 Return to Base</button>
-      <button onClick={() => sendCommand('HOLD')}>⏸️ Hold Position</button>
+        <button onClick={() => sendCommand('RETURN')}>🛬 Return to Base</button>
+        <button onClick={() => sendCommand('HOLD')}>⏸️ Hold Position</button>
+      </main>
     </div>
   );
 }
