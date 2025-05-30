@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import './App.css';
 import { io } from 'socket.io-client';
 import type { Telemetry } from './types/Telemetry';
 import { DroneMap } from './components/DroneMap';
@@ -15,9 +16,18 @@ function App() {
     speed: 0,
     battery: 100,
   });
+  const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
-    socket.on('connect', () => console.log('✅ Connected to backend'));
+    socket.on('connect', () => {
+      console.log('✅ Connected to backend');
+      setIsConnected(true);
+    });
+
+    socket.on('disconnect', () => {
+      console.log('🔌 Disconnected from backend');
+      setIsConnected(false);
+    });
 
     socket.on('telemetry', (data: Telemetry) => {
       console.log('📡 Telemetry received:', data);
@@ -39,7 +49,15 @@ function App() {
 
   return (
     <div style={{ padding: '2rem' }}>
-      <h2>🔒 Secure Drone Command Center</h2>
+      <h2>
+        🔒 Secure Drone Command Center
+        <span className="connection-status">
+          <span
+            className={`status-dot ${isConnected ? 'connected' : 'disconnected'}`}
+          ></span>
+          {isConnected ? 'Connected' : 'Disconnected'}
+        </span>
+      </h2>
       <DroneMap telemetry={telemetry} />
       <p>🛰️ Lat: {telemetry.lat.toFixed(6)} | Lon: {telemetry.lon.toFixed(6)}</p>
       <p>🪂 Altitude: {telemetry.altitude.toFixed(1)} m | Speed: {telemetry.speed.toFixed(1)} km/h</p>
