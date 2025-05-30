@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
 import type { Telemetry } from './types/Telemetry';
 import { DroneMap } from './components/DroneMap';
+import { TelemetryPanel } from './components/TelemetryPanel';
 
 const socket = io('http://localhost:5000', {
   transports: ['websocket'],
@@ -41,9 +42,7 @@ function App() {
     <div style={{ padding: '2rem' }}>
       <h2>🔒 Secure Drone Command Center</h2>
       <DroneMap telemetry={telemetry} />
-      <p>🛰️ Lat: {telemetry.lat.toFixed(6)} | Lon: {telemetry.lon.toFixed(6)}</p>
-      <p>🪂 Altitude: {telemetry.altitude.toFixed(1)} m | Speed: {telemetry.speed.toFixed(1)} km/h</p>
-      <p>🔋 Battery: {telemetry.battery.toFixed(1)}%</p>
+      <TelemetryPanel telemetry={telemetry} />
 
       <button onClick={() => sendCommand('RETURN')}>🛬 Return to Base</button>
       <button onClick={() => sendCommand('HOLD')}>⏸️ Hold Position</button>
