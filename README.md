@@ -4,19 +4,19 @@ A real-time drone telemetry and command interface, modeled after military-grade 
 
 ---
 
-## ✨ Features
+## Features
 
-- 📡 Real-time drone telemetry stream (lat, lon, altitude, speed, battery)
-- 🗺️ Live drone marker with auto-recentering on **Leaflet.js** map
-- 🎮 Send tactical commands to the drone: `Return to Base`, `Hold Position`
-- 🔐 Socket.IO over secure or plain WebSocket channel
-- 📦 Persistent telemetry logging to **SQLite**
-- 🧠 Simple Python drone simulator included
-- 💻 Built with **Flask**, **React**, **TypeScript**, **Vite**
+- Real-time drone telemetry stream (lat, lon, altitude, speed, battery)
+- Live drone marker with auto-recentering on **Leaflet.js** map
+- Send tactical commands to the drone: `Return to Base`, `Hold Position`
+- Socket.IO over secure or plain WebSocket channel
+- Persistent telemetry logging to **SQLite**
+- Simple Python drone simulator included
+- Built with **Flask**, **React**, **TypeScript**, **Vite**
 
 ---
 
-## 🧰 Tech Stack
+## Tech Stack
 
 | Layer       | Tech                          |
 |-------------|-------------------------------|
@@ -29,7 +29,7 @@ A real-time drone telemetry and command interface, modeled after military-grade 
 
 ---
 
-## 🛠️ Setup Instructions
+## 🛠Setup Instructions
 
 Clone the repository and run the full stack locally:
 
