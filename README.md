@@ -46,6 +46,9 @@ python -m venv venv
 
 pip install -r requirements.txt
 
+# Optional: set a token to authorize command events
+export COMMAND_TOKEN=mysecret
+
 # 3. Start the Flask server
 python app.py
 
@@ -57,6 +60,7 @@ python simulator.py
 # 5. Frontend Setup
 cd frontend
 npm install
+export VITE_COMMAND_TOKEN=mysecret
 npm run dev
 
 # Frontend runs at:
