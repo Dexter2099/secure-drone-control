@@ -1,4 +1,4 @@
-import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, useMap, Polyline } from 'react-leaflet';
 import type { Telemetry } from '../types/Telemetry';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
@@ -15,8 +15,11 @@ L.Icon.Default.mergeOptions({
   shadowUrl: markerShadow,
 });
 
+import type { LatLngTuple } from 'leaflet';
+
 type Props = {
   telemetry: Telemetry;
+  path: LatLngTuple[];
 };
 
 const RecenterMap = ({ lat, lon }: { lat: number; lon: number }) => {
@@ -27,7 +30,7 @@ const RecenterMap = ({ lat, lon }: { lat: number; lon: number }) => {
   return null;
 };
 
-export const DroneMap = ({ telemetry }: Props) => {
+export const DroneMap = ({ telemetry, path }: Props) => {
   return (
     <MapContainer
       center={[telemetry.lat, telemetry.lon]}
@@ -45,6 +48,7 @@ export const DroneMap = ({ telemetry }: Props) => {
           ⚡ Battery: {telemetry.battery.toFixed(1)}%
         </Popup>
       </Marker>
+      <Polyline positions={path} />
     </MapContainer>
   );
 };
