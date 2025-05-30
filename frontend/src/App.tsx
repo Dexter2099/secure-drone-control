@@ -4,6 +4,7 @@ import type { Telemetry } from './types/Telemetry';
 import type { PathPoint } from './types/PathPoint';
 import { DroneMap } from './components/DroneMap';
 import { Header } from './components/Header';
+import { StatusBadge } from './components/StatusBadge';
 import './App.css';
 
 const socket = io('http://localhost:5000', {
@@ -70,6 +71,7 @@ function App() {
         <button onClick={() => sendCommand('RETURN')}>🛬 Return to Base</button>
         <button onClick={() => sendCommand('HOLD')}>⏸️ Hold Position</button>
       </main>
+      <StatusBadge connected={connected} />
     </div>
   );
 }
