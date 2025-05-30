@@ -2,7 +2,7 @@
 import eventlet
 eventlet.monkey_patch()
 
-from flask import Flask, request
+from flask import Flask, request, jsonify, make_response
 from flask_socketio import SocketIO
 import sqlite3
 from datetime import datetime
@@ -10,8 +10,10 @@ from datetime import datetime
 app = Flask(__name__)
 socketio = SocketIO(app, cors_allowed_origins="*", async_mode="eventlet")
 
+DB_FILE = "telemetry.db"
+
 def save_to_db(data):
-    conn = sqlite3.connect("telemetry.db")
+    conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS telemetry (
@@ -44,6 +46,19 @@ def on_telemetry(data):
 @socketio.on('send_command')
 def on_command(data):
     print("[COMMAND] Received:", data)
+
+
+@app.get('/path')
+def get_path():
+    conn = sqlite3.connect(DB_FILE)
+    cursor = conn.cursor()
+    cursor.execute('SELECT lat, lon FROM telemetry ORDER BY id ASC')
+    rows = cursor.fetchall()
+    conn.close()
+    path = [{'lat': r[0], 'lon': r[1]} for r in rows]
+    resp = make_response(jsonify(path))
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    return resp
 
 if __name__ == "__main__":
     socketio.run(app, host='0.0.0.0', port=5000)
