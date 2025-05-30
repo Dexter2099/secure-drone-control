@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
 import type { Telemetry } from './types/Telemetry';
+import type { PathPoint } from './types/PathPoint';
 import { DroneMap } from './components/DroneMap';
 import { Header } from './components/Header';
 import './App.css';
@@ -18,8 +19,14 @@ function App() {
     battery: 100,
   });
   const [connected, setConnected] = useState(false);
+  const [path, setPath] = useState<PathPoint[]>([]);
 
   useEffect(() => {
+    fetch('http://localhost:5000/path')
+      .then((res) => res.json())
+      .then((data: PathPoint[]) => setPath(data))
+      .catch((err) => console.error('Failed to load path', err));
+
     socket.on('connect', () => {
       console.log('✅ Connected to backend');
       setConnected(true);
@@ -30,6 +37,7 @@ function App() {
     socket.on('telemetry', (data: Telemetry) => {
       console.log('📡 Telemetry received:', data);
       setTelemetry(data);
+      setPath((prev) => [...prev, { lat: data.lat, lon: data.lon }]);
     });
 
     socket.on('connect_error', (err) => {
@@ -49,7 +57,7 @@ function App() {
     <div className="app-container">
       <Header connected={connected} />
       <main>
-        <DroneMap telemetry={telemetry} />
+        <DroneMap telemetry={telemetry} path={path} />
         <p>
           🛰️ Lat: {telemetry.lat.toFixed(6)} | Lon: {telemetry.lon.toFixed(6)}
         </p>

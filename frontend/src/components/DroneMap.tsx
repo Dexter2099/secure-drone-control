@@ -1,5 +1,6 @@
-import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, useMap, Polyline } from 'react-leaflet';
 import type { Telemetry } from '../types/Telemetry';
+import type { PathPoint } from '../types/PathPoint';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import { useEffect } from 'react';
@@ -17,6 +18,7 @@ L.Icon.Default.mergeOptions({
 
 type Props = {
   telemetry: Telemetry;
+  path: PathPoint[];
 };
 
 const RecenterMap = ({ lat, lon }: { lat: number; lon: number }) => {
@@ -27,7 +29,7 @@ const RecenterMap = ({ lat, lon }: { lat: number; lon: number }) => {
   return null;
 };
 
-export const DroneMap = ({ telemetry }: Props) => {
+export const DroneMap = ({ telemetry, path }: Props) => {
   return (
     <MapContainer
       center={[telemetry.lat, telemetry.lon]}
@@ -39,6 +41,9 @@ export const DroneMap = ({ telemetry }: Props) => {
         attribution='&copy; OpenStreetMap contributors'
         url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
       />
+      {path.length > 1 && (
+        <Polyline positions={path.map((p) => [p.lat, p.lon])} color='blue' />
+      )}
       <Marker position={[telemetry.lat, telemetry.lon]}>
         <Popup>
           🛰️ Alt: {telemetry.altitude.toFixed(1)} m<br />
