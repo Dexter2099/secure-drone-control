@@ -40,3 +40,15 @@
 .read-the-docs {
   color: #888;
 }
+
+.battery-high {
+  color: green;
+}
+
+.battery-medium {
+  color: orange;
+}
+
+.battery-low {
+  color: red;
+}
