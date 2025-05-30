@@ -70,3 +70,10 @@
 .read-the-docs {
   color: #888;
 }
+
+.status-indicator {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  z-index: 1000;
+}
