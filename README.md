@@ -29,7 +29,7 @@ A real-time drone telemetry and command interface, modeled after military-grade 
 
 ---
 
-## 🛠Setup Instructions
+## Setup Instructions
 
 Clone the repository and run the full stack locally:
 
