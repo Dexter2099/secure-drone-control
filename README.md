@@ -44,10 +44,15 @@ cd secure-drone-control
 # 2. Backend Setup (Python 3.9+)
 cd backend
 python -m venv venv
-.\venv\Scripts\activate       # On Windows
-# source venv/bin/activate   # On macOS/Linux
 
-pip install -r requirements.txt
+# On Windows
+#.\venv\Scripts\activate
+# On macOS/Linux
+source venv/bin/activate
+
+pip install --upgrade -r requirements.txt
+# If you previously installed `gevent`, recreate the venv or run
+# `pip uninstall gevent` to remove the leftover package.
 
 # Generate self-signed certificates (development only)
 mkdir -p certs
