@@ -3,6 +3,7 @@ import eventlet
 eventlet.monkey_patch()
 
 import logging
+import os
 
 # Configure logging level via environment variable
 _log_level = os.getenv("LOG_LEVEL", "INFO").upper()
@@ -12,7 +13,6 @@ from flask import Flask, request, jsonify, make_response
 from flask_socketio import SocketIO
 import sqlite3
 from datetime import datetime
-import os
 
 app = Flask(__name__)
 
