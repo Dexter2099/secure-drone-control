@@ -31,7 +31,10 @@ A real-time drone telemetry and command interface, modeled after military-grade 
 
 ## Setup Instructions
 
-Clone the repository and run the full stack locally:
+Clone the repository and run the full stack locally. The backend requires a
+`COMMAND_TOKEN` environment variable to authenticate command events. You can
+optionally specify a comma-separated list of origins using `ALLOWED_ORIGINS`
+(defaults to `*`) to control CORS access:
 
 ```bash
 # 1. Clone the repo
@@ -51,8 +54,11 @@ mkdir -p certs
 openssl req -newkey rsa:2048 -nodes -keyout certs/key.pem \
     -x509 -days 365 -out certs/cert.pem
 
-# Optional: set a token to authorize command events
+# Required: set a token to authorize command events
 export COMMAND_TOKEN=mysecret
+
+# Optional: restrict allowed CORS origins (comma separated)
+export ALLOWED_ORIGINS=http://localhost:5173
 
 # 3. Start the Flask server
 python app.py
@@ -68,7 +74,7 @@ python simulator.py
 # 5. Frontend Setup
 cd frontend
 npm install
-export VITE_COMMAND_TOKEN=mysecret
+export VITE_COMMAND_TOKEN=mysecret  # Must match COMMAND_TOKEN
 npm run dev
 
 # Frontend runs at:
