@@ -17,6 +17,5 @@ dist/
 *.tmp
 # Security certificates and runtime databases
 backend/certs/*.pem
-backend/certs/cert.pm
 backend/db.sqlite
 backend/drone_log.db

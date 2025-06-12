@@ -54,6 +54,9 @@ mkdir -p certs
 openssl req -newkey rsa:2048 -nodes -keyout certs/key.pem \
     -x509 -days 365 -out certs/cert.pem
 
+The backend looks for these files as `cert.pem` and `key.pem` inside the
+`certs` directory when running with TLS enabled.
+
 # Required: set a token to authorize command events
 export COMMAND_TOKEN=mysecret
 
