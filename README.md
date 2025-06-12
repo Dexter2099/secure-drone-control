@@ -18,7 +18,9 @@ This launches the backend, drone simulator and frontend together.
 
 - Real-time telemetry: latitude, longitude, altitude, speed and battery level
 - Drone position rendered on a **Leaflet.js** map with auto recentring
+- Flight path polyline showing the drone's trajectory
 - Command interface supporting `Return to Base` and `Hold Position`
+- Connection status badge indicating link health
 - WebSocket communication via Socket.IO (TLS optional)
 - Telemetry stored persistently in **SQLite**
 - Lightweight Python simulator included
@@ -55,8 +57,8 @@ Follow these steps to run the services manually.
 2. **Backend Setup (Python 3.9+)**
 
    ```bash
+   cp .env.example .env            # create repo-level environment file
    cd backend
-   cp .env.example .env            # create local environment file
    python -m venv venv
    source venv/bin/activate        # on Windows use .\\venv\\Scripts\\activate
    pip install --upgrade -r requirements.txt
@@ -104,7 +106,9 @@ Follow these steps to run the services manually.
    python simulator.py
    ```
 
-4. **Frontend Setup**
+4. **Frontend Setup (Node 18+)**
+
+   Ensure Node.js 18 or later is installed, then run:
 
    ```bash
    cd frontend
