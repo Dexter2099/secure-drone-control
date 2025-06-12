@@ -73,6 +73,9 @@ export COMMAND_TOKEN=mysecret
 # Optional: restrict allowed CORS origins (comma separated)
 export ALLOWED_ORIGINS=http://localhost:5173
 
+# Optional: change the backend port (defaults to 5000)
+export PORT=8000
+
 # 3. Start the Flask server
 python app.py
 
