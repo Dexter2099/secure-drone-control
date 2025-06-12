@@ -37,10 +37,6 @@ TLS_CERT = os.getenv("TLS_CERT", "certs/cert.pem")
 TLS_KEY = os.getenv("TLS_KEY", "certs/key.pem")
 USE_TLS = os.getenv("USE_TLS", "false").lower() in ("1", "true", "yes")
 
-# Require a command token for issuing control commands
-COMMAND_TOKEN = os.environ.get("COMMAND_TOKEN")
-if not COMMAND_TOKEN:
-    raise RuntimeError("COMMAND_TOKEN environment variable is required")
 
 def save_to_db(data):
     conn = sqlite3.connect(DB_FILE)
@@ -75,12 +71,7 @@ def on_telemetry(data):
 
 @socketio.on('send_command')
 def on_command(data):
-    token = data.get('token')
-    if token != COMMAND_TOKEN:
-        logging.warning("[!] Unauthorized command attempt")
-        socketio.emit('command_status', {'error': 'unauthorized'})
-        return
-    logging.info("[COMMAND] Authorized: %s", data)
+    logging.info("[COMMAND] Received: %s", data)
     socketio.emit('command', data)
 
 

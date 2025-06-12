@@ -81,10 +81,9 @@ Follow these steps if you prefer to run the services manually instead of using D
    export USE_TLS=true
    ```
 
-   Set a token to authorize command events and adjust any other variables:
+   Adjust any configuration variables as needed:
 
    ```bash
-   export COMMAND_TOKEN=mysecret
    export ALLOWED_ORIGINS=http://localhost:5173   # optional CORS restriction
    export PORT=8000                               # default is 5000
    ```
@@ -110,7 +109,6 @@ Follow these steps if you prefer to run the services manually instead of using D
    ```bash
    cd frontend
    npm install
-   export VITE_COMMAND_TOKEN=mysecret              # must match COMMAND_TOKEN
    export VITE_BACKEND_URL=http://localhost:5000   # backend base URL
    npm run dev
    ```

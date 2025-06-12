@@ -12,7 +12,6 @@ const BACKEND_URL =
 const socket = io(BACKEND_URL, {
   transports: ['websocket'],
 });
-const COMMAND_TOKEN = import.meta.env.VITE_COMMAND_TOKEN;
 
 function App() {
   const [telemetry, setTelemetry] = useState<Telemetry>({
@@ -55,7 +54,7 @@ function App() {
   }, []);
 
   const sendCommand = (cmd: string) => {
-    socket.emit('send_command', { command: cmd, token: COMMAND_TOKEN });
+    socket.emit('send_command', { command: cmd });
   };
 
   return (
