@@ -4,6 +4,9 @@ eventlet.monkey_patch()
 
 import logging
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Configure logging level via environment variable
 _log_level = os.getenv("LOG_LEVEL", "INFO").upper()

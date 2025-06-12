@@ -43,6 +43,7 @@ cd secure-drone-control
 
 # 2. Backend Setup (Python 3.9+)
 cd backend
+cp .env.example .env  # create local environment file
 python -m venv venv
 
 # On Windows
