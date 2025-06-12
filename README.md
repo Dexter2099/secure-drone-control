@@ -26,7 +26,7 @@ This launches the backend, drone simulator and frontend together.
 - Lightweight Python simulator included
 - Built with **Flask**, **React**, **TypeScript** and **Vite**
 
-![Interface screenshot](docs/screenshot.svg)
+![Interface screenshot](docs/Screenshot1.png)
 
 ---
 
