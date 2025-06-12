@@ -2,6 +2,12 @@
 
 A real-time drone telemetry and command interface, modeled after military-grade operations for UAV control. Built using modern web technologies and secure communication protocols, this project is designed to simulate tactical drone oversight — ideal for aerospace, defense, or simulation software roles.
 
+**Quick Start**
+```bash
+docker compose up --build
+```
+Launches backend, simulator and frontend together.
+
 ---
 
 ## Features
@@ -13,6 +19,8 @@ A real-time drone telemetry and command interface, modeled after military-grade 
 - Persistent telemetry logging to **SQLite**
 - Simple Python drone simulator included
 - Built with **Flask**, **React**, **TypeScript**, **Vite**
+
+![UI screenshot](docs/screenshot.svg)
 
 ---
 
