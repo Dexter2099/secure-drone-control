@@ -27,6 +27,8 @@ socketio = SocketIO(app, cors_allowed_origins=CORS_LIST, async_mode="eventlet")
 
 DB_FILE = os.getenv("TELEMETRY_DB", "telemetry.db")
 
+PORT = int(os.getenv("PORT", "5000"))
+
 # TLS configuration
 TLS_CERT = os.getenv("TLS_CERT", "certs/cert.pem")
 TLS_KEY = os.getenv("TLS_KEY", "certs/key.pem")
@@ -98,5 +100,5 @@ if __name__ == "__main__":
     run_kwargs = {}
     if ssl_ctx:
         run_kwargs["ssl_context"] = ssl_ctx
-    socketio.run(app, host='0.0.0.0', port=5000, **run_kwargs)
+    socketio.run(app, host='0.0.0.0', port=PORT, **run_kwargs)
 
