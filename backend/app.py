@@ -9,10 +9,22 @@ from datetime import datetime
 import os
 
 app = Flask(__name__)
-socketio = SocketIO(app, cors_allowed_origins="*", async_mode="eventlet")
+
+# Allow configurable CORS origins via env var
+ALLOWED_ORIGINS = os.getenv("ALLOWED_ORIGINS", "*")
+if ALLOWED_ORIGINS != "*":
+    CORS_LIST = [origin.strip() for origin in ALLOWED_ORIGINS.split(',') if origin]
+else:
+    CORS_LIST = "*"
+
+socketio = SocketIO(app, cors_allowed_origins=CORS_LIST, async_mode="eventlet")
 
 DB_FILE = os.getenv("TELEMETRY_DB", "telemetry.db")
-COMMAND_TOKEN = os.getenv("COMMAND_TOKEN", "changeme")
+
+# Require a command token for issuing control commands
+COMMAND_TOKEN = os.environ.get("COMMAND_TOKEN")
+if not COMMAND_TOKEN:
+    raise RuntimeError("COMMAND_TOKEN environment variable is required")
 
 def save_to_db(data):
     conn = sqlite3.connect(DB_FILE)
@@ -65,7 +77,7 @@ def get_path():
     conn.close()
     path = [{'lat': r[0], 'lon': r[1]} for r in rows]
     resp = make_response(jsonify(path))
-    resp.headers['Access-Control-Allow-Origin'] = '*'
+    resp.headers['Access-Control-Allow-Origin'] = ALLOWED_ORIGINS
     return resp
 
 if __name__ == "__main__":
