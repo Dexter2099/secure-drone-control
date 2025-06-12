@@ -27,6 +27,11 @@ socketio = SocketIO(app, cors_allowed_origins=CORS_LIST, async_mode="eventlet")
 
 DB_FILE = os.getenv("TELEMETRY_DB", "telemetry.db")
 
+# TLS configuration
+TLS_CERT = os.getenv("TLS_CERT", "certs/cert.pem")
+TLS_KEY = os.getenv("TLS_KEY", "certs/key.pem")
+USE_TLS = os.getenv("USE_TLS", "false").lower() in ("1", "true", "yes")
+
 # Require a command token for issuing control commands
 COMMAND_TOKEN = os.environ.get("COMMAND_TOKEN")
 if not COMMAND_TOKEN:
@@ -87,5 +92,11 @@ def get_path():
     return resp
 
 if __name__ == "__main__":
-    socketio.run(app, host='0.0.0.0', port=5000)
+    ssl_ctx = None
+    if USE_TLS or (os.path.exists(TLS_CERT) and os.path.exists(TLS_KEY)):
+        ssl_ctx = (TLS_CERT, TLS_KEY)
+    run_kwargs = {}
+    if ssl_ctx:
+        run_kwargs["ssl_context"] = ssl_ctx
+    socketio.run(app, host='0.0.0.0', port=5000, **run_kwargs)
 
