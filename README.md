@@ -46,11 +46,19 @@ python -m venv venv
 
 pip install -r requirements.txt
 
+# Generate self-signed certificates (development only)
+mkdir -p certs
+openssl req -newkey rsa:2048 -nodes -keyout certs/key.pem \
+    -x509 -days 365 -out certs/cert.pem
+
 # Optional: set a token to authorize command events
 export COMMAND_TOKEN=mysecret
 
 # 3. Start the Flask server
 python app.py
+
+# The `telemetry.db` file used by the server is created
+# automatically on first launch when telemetry is stored.
 
 # 4. Run the Drone Simulator (in another terminal)
 cd backend
