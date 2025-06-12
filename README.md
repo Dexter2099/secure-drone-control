@@ -103,3 +103,15 @@ npm run dev
 # Frontend runs at:
 http://localhost:5173
 
+
+---
+
+## Docker Compose Quickstart
+
+1. Copy `backend/.env.example` to `.env` in the repository root and adjust any variables you need.
+2. Build and start the whole stack:
+   ```bash
+   docker compose up --build
+   ```
+   The backend will be available at http://localhost:5000 (or whichever port you set in .env) and the frontend at http://localhost:5173.
+
