@@ -57,6 +57,16 @@ openssl req -newkey rsa:2048 -nodes -keyout certs/key.pem \
 The backend looks for these files as `cert.pem` and `key.pem` inside the
 `certs` directory when running with TLS enabled.
 
+To customize the certificate paths, set `TLS_CERT` and `TLS_KEY`. TLS is used
+automatically when both files exist, or you can force it with `USE_TLS=true`:
+
+```bash
+export TLS_CERT=certs/cert.pem
+export TLS_KEY=certs/key.pem
+# Optional: force TLS even if the files do not exist
+export USE_TLS=true
+```
+
 # Required: set a token to authorize command events
 export COMMAND_TOKEN=mysecret
 
