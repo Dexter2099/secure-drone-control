@@ -75,6 +75,7 @@ python simulator.py
 cd frontend
 npm install
 export VITE_COMMAND_TOKEN=mysecret  # Must match COMMAND_TOKEN
+export VITE_BACKEND_URL=http://localhost:5000  # Backend base URL (default)
 npm run dev
 
 # Frontend runs at:
