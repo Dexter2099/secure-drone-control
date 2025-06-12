@@ -1,129 +1,139 @@
-# Drone Command & Control System
+# Secure Drone Command & Control
 
-A real-time drone telemetry and command interface, modeled after military-grade operations for UAV control. Built using modern web technologies and secure communication protocols, this project is designed to simulate tactical drone oversight — ideal for aerospace, defense, or simulation software roles.
+A complete example of a UAV command center built with Flask and React. The project streams telemetry in real time, logs data to SQLite and allows issuing simple control commands. It is ideal for training simulations or demonstrating secure WebSocket communication.
 
-**Quick Start**
+## Quick Start
+
+Run the full stack with Docker Compose:
+
 ```bash
 docker compose up --build
 ```
-Launches backend, simulator and frontend together.
+
+This launches the backend, drone simulator and frontend together.
 
 ---
 
 ## Features
 
-- Real-time drone telemetry stream (lat, lon, altitude, speed, battery)
-- Live drone marker with auto-recentering on **Leaflet.js** map
-- Send tactical commands to the drone: `Return to Base`, `Hold Position`
-- Socket.IO over secure or plain WebSocket channel
-- Persistent telemetry logging to **SQLite**
-- Simple Python drone simulator included
-- Built with **Flask**, **React**, **TypeScript**, **Vite**
+- Real-time telemetry: latitude, longitude, altitude, speed and battery level
+- Drone position rendered on a **Leaflet.js** map with auto recentring
+- Command interface supporting `Return to Base` and `Hold Position`
+- WebSocket communication via Socket.IO (TLS optional)
+- Telemetry stored persistently in **SQLite**
+- Lightweight Python simulator included
+- Built with **Flask**, **React**, **TypeScript** and **Vite**
 
-![UI screenshot](docs/screenshot.svg)
-
----
-
-## Tech Stack
-
-| Layer       | Tech                          |
-|-------------|-------------------------------|
-| Frontend    | React + Vite + TypeScript     |
-| Mapping     | Leaflet.js                    |
-| Backend     | Flask + Flask-SocketIO        |
-| Realtime    | Python-SocketIO (client + server)
-| Data Store  | SQLite                        |
-| Simulation  | Python mock drone emitter     |
+![Interface screenshot](docs/screenshot.svg)
 
 ---
 
-## Setup Instructions
+## Technology Stack
 
-Clone the repository and run the full stack locally. The backend requires a
-`COMMAND_TOKEN` environment variable to authenticate command events. You can
-optionally specify a comma-separated list of origins using `ALLOWED_ORIGINS`
-(defaults to `*`) to control CORS access:
-
-```bash
-# 1. Clone the repo
-git clone https://github.com/your-username/secure-drone-control.git
-cd secure-drone-control
-
-# 2. Backend Setup (Python 3.9+)
-cd backend
-cp .env.example .env  # create local environment file
-python -m venv venv
-
-# On Windows
-#.\venv\Scripts\activate
-# On macOS/Linux
-source venv/bin/activate
-
-pip install --upgrade -r requirements.txt
-# If you previously installed `gevent`, recreate the venv or run
-# `pip uninstall gevent` to remove the leftover package.
-
-# Generate self-signed certificates (development only)
-mkdir -p certs
-openssl req -newkey rsa:2048 -nodes -keyout certs/key.pem \
-    -x509 -days 365 -out certs/cert.pem
-
-The backend looks for these files as `cert.pem` and `key.pem` inside the
-`certs` directory when running with TLS enabled.
-
-To customize the certificate paths, set `TLS_CERT` and `TLS_KEY`. TLS is used
-automatically when both files exist, or you can force it with `USE_TLS=true`:
-
-```bash
-export TLS_CERT=certs/cert.pem
-export TLS_KEY=certs/key.pem
-# Optional: force TLS even if the files do not exist
-export USE_TLS=true
-```
-
-# Required: set a token to authorize command events
-export COMMAND_TOKEN=mysecret
-
-# Optional: restrict allowed CORS origins (comma separated)
-export ALLOWED_ORIGINS=http://localhost:5173
-
-# Optional: change the backend port (defaults to 5000)
-export PORT=8000
-
-# 3. Start the Flask server
-python app.py
-
-# The `telemetry.db` file used by the server is created
-# automatically on first launch when telemetry is stored.
-
-# 4. Run the Drone Simulator (in another terminal)
-cd backend
-.\venv\Scripts\activate
-python simulator.py
-
-# 5. Frontend Setup
-cd frontend
-npm install
-export VITE_COMMAND_TOKEN=mysecret  # Must match COMMAND_TOKEN
-export VITE_BACKEND_URL=http://localhost:5000  # Backend base URL (default)
-npm run dev
-
-# Frontend runs at:
-http://localhost:5173
-
+| Layer      | Components                          |
+|------------|-------------------------------------|
+| Frontend   | React + Vite + TypeScript           |
+| Mapping    | Leaflet.js                          |
+| Backend    | Flask + Flask-SocketIO              |
+| Realtime   | Python-SocketIO (client & server)   |
+| Data Store | SQLite                              |
+| Simulator  | Python-based drone emitter          |
 
 ---
 
-## Docker Compose Quickstart
+## Local Development
+
+Follow these steps if you prefer to run the services manually instead of using Docker.
+
+1. **Clone the repository**
+
+   ```bash
+   git clone https://github.com/your-username/secure-drone-control.git
+   cd secure-drone-control
+   ```
+
+2. **Backend Setup (Python 3.9+)**
+
+   ```bash
+   cd backend
+   cp .env.example .env            # create local environment file
+   python -m venv venv
+   source venv/bin/activate        # on Windows use .\\venv\\Scripts\\activate
+   pip install --upgrade -r requirements.txt
+   ```
+
+   If you previously installed `gevent`, recreate the virtual environment or run `pip uninstall gevent` to remove it.
+
+   Generate self-signed certificates for development if needed:
+
+   ```bash
+   mkdir -p certs
+   openssl req -newkey rsa:2048 -nodes -keyout certs/key.pem \
+       -x509 -days 365 -out certs/cert.pem
+   ```
+
+   To customize certificate paths, set `TLS_CERT` and `TLS_KEY`. TLS is enabled automatically when both files exist or can be forced with `USE_TLS=true`.
+
+   ```bash
+   export TLS_CERT=certs/cert.pem
+   export TLS_KEY=certs/key.pem
+   # Optional: force TLS even if files are missing
+   export USE_TLS=true
+   ```
+
+   Set a token to authorize command events and adjust any other variables:
+
+   ```bash
+   export COMMAND_TOKEN=mysecret
+   export ALLOWED_ORIGINS=http://localhost:5173   # optional CORS restriction
+   export PORT=8000                               # default is 5000
+   ```
+
+   Start the Flask server:
+
+   ```bash
+   python app.py
+   ```
+
+   The `telemetry.db` file is created automatically on first launch.
+
+3. **Run the Drone Simulator** (in another terminal)
+
+   ```bash
+   cd backend
+   source venv/bin/activate
+   python simulator.py
+   ```
+
+4. **Frontend Setup**
+
+   ```bash
+   cd frontend
+   npm install
+   export VITE_COMMAND_TOKEN=mysecret              # must match COMMAND_TOKEN
+   export VITE_BACKEND_URL=http://localhost:5000   # backend base URL
+   npm run dev
+   ```
+
+   The frontend is available at http://localhost:5173.
+
+---
+
+## Docker Compose
 
 1. Copy `backend/.env.example` to `.env` in the repository root and adjust any variables you need.
-2. Build and start the whole stack:
+2. Build and launch the stack:
+
    ```bash
    docker compose up --build
    ```
-   The backend will be available at http://localhost:5000 (or whichever port you set in .env) and the frontend at http://localhost:5173.
-3. Alternatively, if you have the Python and Node dependencies installed locally, you can run the stack directly:
+
+   The backend will be available at http://localhost:5000 (or the port set in `.env`) and the frontend at http://localhost:5173.
+
+3. If you already have the dependencies installed locally, you can start the services without Docker:
+
    ```bash
    ./scripts/start.sh
    ```
+
 
