@@ -2,6 +2,12 @@
 import eventlet
 eventlet.monkey_patch()
 
+import logging
+
+# Configure logging level via environment variable
+_log_level = os.getenv("LOG_LEVEL", "INFO").upper()
+logging.basicConfig(level=getattr(logging, _log_level, logging.INFO))
+
 from flask import Flask, request, jsonify, make_response
 from flask_socketio import SocketIO
 import sqlite3
@@ -48,12 +54,12 @@ def save_to_db(data):
 
 @socketio.on('connect')
 def on_connect():
-    print("[+] Client connected.")
+    logging.info("[+] Client connected.")
     socketio.emit("server_status", {"msg": "Secure link established."})
 
 @socketio.on('telemetry')
 def on_telemetry(data):
-    print("[DRONE] Telemetry received:", data)
+    logging.info("[DRONE] Telemetry received: %s", data)
     save_to_db(data)
     socketio.emit("telemetry", data)
 
@@ -61,10 +67,10 @@ def on_telemetry(data):
 def on_command(data):
     token = data.get('token')
     if token != COMMAND_TOKEN:
-        print("[!] Unauthorized command attempt")
+        logging.warning("[!] Unauthorized command attempt")
         socketio.emit('command_status', {'error': 'unauthorized'})
         return
-    print("[COMMAND] Authorized:", data)
+    logging.info("[COMMAND] Authorized: %s", data)
     socketio.emit('command', data)
 
 
