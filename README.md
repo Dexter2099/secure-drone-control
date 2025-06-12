@@ -114,4 +114,8 @@ http://localhost:5173
    docker compose up --build
    ```
    The backend will be available at http://localhost:5000 (or whichever port you set in .env) and the frontend at http://localhost:5173.
+3. Alternatively, if you have the Python and Node dependencies installed locally, you can run the stack directly:
+   ```bash
+   ./scripts/start.sh
+   ```
 
