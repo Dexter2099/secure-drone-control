@@ -7,7 +7,9 @@ import { Header } from './components/Header';
 import { StatusBadge } from './components/StatusBadge';
 import './App.css';
 
-const socket = io('http://localhost:5000', {
+const BACKEND_URL =
+  import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
+const socket = io(BACKEND_URL, {
   transports: ['websocket'],
 });
 const COMMAND_TOKEN = import.meta.env.VITE_COMMAND_TOKEN;
@@ -24,7 +26,8 @@ function App() {
   const [path, setPath] = useState<PathPoint[]>([]);
 
   useEffect(() => {
-    fetch('http://localhost:5000/path')
+    const baseUrl = BACKEND_URL.replace(/\/+$/, '');
+    fetch(`${baseUrl}/path`)
       .then((res) => res.json())
       .then((data: PathPoint[]) => setPath(data))
       .catch((err) => console.error('Failed to load path', err));

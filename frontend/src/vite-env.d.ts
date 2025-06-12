@@ -7,6 +7,7 @@ declare module '*.png' {
 
 interface ImportMetaEnv {
   readonly VITE_COMMAND_TOKEN: string;
+  readonly VITE_BACKEND_URL?: string;
 }
 
 interface ImportMeta {
