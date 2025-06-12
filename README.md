@@ -4,10 +4,10 @@ A complete example of a UAV command center built with Flask and React. The proje
 
 ## Quick Start
 
-Run the full stack with Docker Compose:
+Run the full stack with the provided script:
 
 ```bash
-docker compose up --build
+./scripts/start.sh
 ```
 
 This launches the backend, drone simulator and frontend together.
@@ -43,7 +43,7 @@ This launches the backend, drone simulator and frontend together.
 
 ## Local Development
 
-Follow these steps if you prefer to run the services manually instead of using Docker.
+Follow these steps to run the services manually.
 
 1. **Clone the repository**
 
@@ -116,22 +116,10 @@ Follow these steps if you prefer to run the services manually instead of using D
    The frontend is available at http://localhost:5173.
 
 ---
+After completing the setup you can also launch all services at once:
 
-## Docker Compose
-
-1. Copy `backend/.env.example` to `.env` in the repository root and adjust any variables you need.
-2. Build and launch the stack:
-
-   ```bash
-   docker compose up --build
-   ```
-
-   The backend will be available at http://localhost:5000 (or the port set in `.env`) and the frontend at http://localhost:5173.
-
-3. If you already have the dependencies installed locally, you can start the services without Docker:
-
-   ```bash
-   ./scripts/start.sh
-   ```
+```bash
+./scripts/start.sh
+```
 
 
